@@ -6,5 +6,9 @@
   "id": "ChromaLite",
   "name": "ChromaLite",
   "version": "1.0.3",
+  "dependsOn": {
+    "BeatSaberMarkupLanguage": "^1.1.0",
+    "BS Utils":  "^1.3.0"
+  },
   "features": []
 }
