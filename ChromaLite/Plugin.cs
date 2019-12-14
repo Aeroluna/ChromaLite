@@ -1,14 +1,12 @@
 ﻿using Harmony;
-using IllusionInjector;
-using IllusionPlugin;
+using IPA;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using IPALogger = IPA.Logging.Logger;
+using BeatSaberMarkupLanguage.Settings;
 
 namespace ChromaLite {
-    public class Plugin : IPlugin {
-
-        public string Name => "ChromaLite";
-        public string Version => "1.0.2";
+    public class Plugin : IBeatSaberPlugin {
 
         public static bool CTInstalled = false;
 
@@ -17,8 +15,8 @@ namespace ChromaLite {
         public void OnApplicationStart() {
 
             if (ChromaToggleInstalled()) {
-                ChromaLogger.Log("ChromaToggle Detected, Disabling ChromaLite.");
-                ChromaLogger.Log("ChromaToggle contains all features (and many more) of ChromaLite.");
+                ChromaLogger.Log("ChromaToggle/Chroma Detected, Disabling ChromaLite.");
+                ChromaLogger.Log("ChromaToggle/Chroma contains all features (and many more) of ChromaLite.");
                 CTInstalled = true;
                 return;
             }
@@ -26,11 +24,11 @@ namespace ChromaLite {
             harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
             //ChromaLogger.Log("Harmonized");
 
-            SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
-            SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        private void SceneManagerOnActiveSceneChanged(Scene current, Scene next) {
+        public void OnActiveSceneChanged(Scene current, Scene next) {
             if (current.name == "GameCore") {
                 if (next.name != "GameCore") {
                     //ChromaLogger.Log("Transitioning out of GameCore");
@@ -45,15 +43,20 @@ namespace ChromaLite {
             }
         }
 
-        private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1) {
-            if (arg0.name == "Menu" && !CTInstalled) {
-                ChromaLiteConfig.InitializeMenu();
+        public void OnSceneLoaded(Scene arg0, LoadSceneMode arg1) {
+            if (arg0.name == "MenuViewControllers" && !CTInstalled) {
+                BSMLSettings.instance.AddSettingsMenu("ChromaLite", "ChromaLite.UI.settings.bsml", UI.ChromaLiteConfig.instance);
+                //ChromaLiteConfig.InitializeMenu();
             }
+        }
+        public void OnSceneUnloaded(Scene scene)
+        {
+
         }
 
         public void OnApplicationQuit() {
-            SceneManager.activeSceneChanged -= SceneManagerOnActiveSceneChanged;
-            SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         public void OnLevelWasLoaded(int level) {
@@ -71,10 +74,22 @@ namespace ChromaLite {
         public void OnFixedUpdate() {
 
         }
+        public void Init(object thisIsNull, IPALogger pluginLogger)
+        {
+
+            ChromaLogger.logger = pluginLogger;
+        }
 
         public static bool ChromaToggleInstalled() {
-            foreach (IPlugin plugin in PluginManager.Plugins) {
-                if (plugin.ToString() == "ChromaToggle.Plugin") {
+            foreach (var mod in IPA.Loader.PluginManager.Plugins) {
+                if (mod.Name == "ChromaToggle" || mod.Name == "Chroma") {
+                    return true;
+                }
+            }
+            foreach (var mod in IPA.Loader.PluginManager.AllPlugins)
+            {
+                if (mod.Metadata.Id == "ChromaToggle" || mod.Metadata.Id == "Chroma")
+                {
                     return true;
                 }
             }

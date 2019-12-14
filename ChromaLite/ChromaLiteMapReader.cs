@@ -21,7 +21,7 @@ namespace ChromaLite {
                 try {
                     //ChromaLogger.Log("Event data: " + i);
                     ChromaEvent cLight = ApplyCustomEvent(bevData[i], ref unfilledEvent, rgbEvents, specialEvents);
-                    if (cLight != null) ChromaLogger.Log("Custom Event " + cLight.GetType() + " found.");
+                    //if (cLight != null) ChromaLogger.Log("Custom Event " + cLight.GetType() + " found."); //lets not destroy the log
                 } catch (Exception e) {
                     ChromaLogger.Log(e);
                     continue;
@@ -122,16 +122,6 @@ namespace ChromaLite {
                 return true;
             }
             return false;
-        }
-
-        public static ref float GetAltColourTime(ref float AFloat, ref float BFloat, NoteType noteType) {
-            if (noteType == NoteType.NoteA) return ref AFloat;
-            else return ref BFloat;
-        }
-
-        public static ref bool GetAltColourToggleBool(ref bool ABool, ref bool BBool, NoteType noteType) {
-            if (noteType == NoteType.NoteA) return ref ABool;
-            else return ref BBool;
         }
 
     }

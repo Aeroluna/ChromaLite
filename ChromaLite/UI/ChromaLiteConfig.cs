@@ -1,14 +1,37 @@
-﻿using CustomUI.GameplaySettings;
-using IllusionPlugin;
+﻿using BeatSaberMarkupLanguage.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChromaLite {
+namespace ChromaLite.UI {
 
-    public static class ChromaLiteConfig {
+    public class ChromaLiteConfig : PersistentSingleton<ChromaLiteConfig>
+    {
+
+        [UIValue("colourevents")]
+        public bool RGBLightsEnabled
+        {
+            get => ChromaUI.ModPrefs.GetBool("Map", "customColourEventsEnabled", true, true);
+            set
+            {
+                ChromaUI.ModPrefs.SetBool("Map", "customColourEventsEnabled", value);
+            }
+        }
+
+        [UIValue("specialevents")]
+        public bool SpecialEventsEnabled
+        {
+            get => ChromaUI.ModPrefs.GetBool("Map", "customSpecialEventsEnabled", true, true);
+            set
+            {
+                ChromaUI.ModPrefs.SetBool("Map", "customSpecialEventsEnabled", value);
+            }
+        }
+    }
+
+    /*public static class ChromaLiteConfig {
 
         private static bool initialized = false;
         public static bool RGBLightsEnabled = true;
@@ -42,6 +65,6 @@ namespace ChromaLite {
 
         }
 
-    }
+    }*/
 
 }

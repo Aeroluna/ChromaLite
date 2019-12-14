@@ -17,11 +17,14 @@ namespace ChromaLite {
         IEnumerator ReadEvents() {
             yield return new WaitForSeconds(0f);
 
-            GameplayCoreSceneSetup gameplayCoreSceneSetup = Resources.FindObjectsOfTypeAll<GameplayCoreSceneSetup>().First();
-            BeatmapDataModel dataModel = gameplayCoreSceneSetup.GetField<BeatmapDataModel>("_beatmapDataModel");
+            BeatmapObjectCallbackController beatmapObjectCallbackController = Resources.FindObjectsOfTypeAll<BeatmapObjectCallbackController>()
+                        .FirstOrDefault();
+            BeatmapData dataModel = beatmapObjectCallbackController.GetField<BeatmapData>("_beatmapData");
 
-            BeatmapData beatmapData = ReadBeatmapEvents(dataModel.beatmapData, ChromaLiteConfig.RGBLightsEnabled, ChromaLiteConfig.SpecialEventsEnabled);
-
+                bool rgblight = UI.ChromaUI.ModPrefs.GetBool("Map", "customColourEventsEnabled", true, true);
+            bool specialevent = UI.ChromaUI.ModPrefs.GetBool("SongCore", "customSpecialEventsEnabled", true, true);
+            BeatmapData beatmapData = ReadBeatmapEvents(dataModel, rgblight, specialevent);
+            
             //ChromaLogger.Log("Events read!");
         }
 
