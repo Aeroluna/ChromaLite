@@ -3,7 +3,6 @@ using IPA;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
-using BeatSaberMarkupLanguage.Settings;
 
 namespace ChromaLite {
     public class Plugin : IBeatSaberPlugin {
@@ -23,6 +22,15 @@ namespace ChromaLite {
 
             harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
             //ChromaLogger.Log("Harmonized");
+
+            // Register capabilities for songcore
+            try
+            {
+                SongCore.Collections.RegisterCapability("ChromaLite");
+                SongCore.Collections.RegisterCapability("Chroma Lighting Events");
+                SongCore.Collections.RegisterCapability("Chroma Special Events");
+            }
+            catch { }
 
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -44,10 +52,7 @@ namespace ChromaLite {
         }
 
         public void OnSceneLoaded(Scene arg0, LoadSceneMode arg1) {
-            if (arg0.name == "MenuViewControllers" && !CTInstalled) {
-                BSMLSettings.instance.AddSettingsMenu("ChromaLite", "ChromaLite.UI.settings.bsml", UI.ChromaLiteConfig.instance);
-                //ChromaLiteConfig.InitializeMenu();
-            }
+
         }
         public void OnSceneUnloaded(Scene scene)
         {

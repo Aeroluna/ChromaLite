@@ -10,7 +10,7 @@ namespace ChromaLite {
 
     class ChromaLiteMapReader {
 
-        public static void ReadMapData(BeatmapData beatmapData, bool rgbEvents, bool specialEvents) {
+        public static void ReadMapData(BeatmapData beatmapData) {
 
             ChromaLogger.Log("Reading event data... ");
 
@@ -20,7 +20,7 @@ namespace ChromaLite {
             for (int i = bevData.Length - 1; i >= 0; i--) {
                 try {
                     //ChromaLogger.Log("Event data: " + i);
-                    ChromaEvent cLight = ApplyCustomEvent(bevData[i], ref unfilledEvent, rgbEvents, specialEvents);
+                    ChromaEvent cLight = ApplyCustomEvent(bevData[i], ref unfilledEvent);
                     //if (cLight != null) ChromaLogger.Log("Custom Event " + cLight.GetType() + " found."); //lets not destroy the log
                 } catch (Exception e) {
                     ChromaLogger.Log(e);
@@ -52,7 +52,7 @@ namespace ChromaLite {
 
         // > 2,000,000,000 = >2000000000 = RGB (see ColourManager.ColourFromInt)
 
-        public static ChromaEvent ApplyCustomEvent(BeatmapEventData bev, ref ChromaColourEvent unfilledColourEvent, bool rgbEvents, bool specialEvents) {
+        public static ChromaEvent ApplyCustomEvent(BeatmapEventData bev, ref ChromaColourEvent unfilledColourEvent) {
 
             //ChromaLogger.Log("Checking BEV ||| " + bev.time + "s : " + bev.value + "v");
 
@@ -88,19 +88,19 @@ namespace ChromaLite {
                      * 
                      */
                     case ChromaEvent.CHROMA_EVENT_SCALE: //1,950,000,001 = 1950000001 = Note Scale Event
-                        if (specialEvents) unfilledColourEvent = new ChromaNoteScaleEvent(bev);
+                        unfilledColourEvent = new ChromaNoteScaleEvent(bev);
                         return null;
                     case ChromaEvent.CHROMA_EVENT_HEALTH: //1,950,000,002 = 1950000002 = Health Event
-                        if (specialEvents) unfilledColourEvent = new ChromaHealthEvent(bev);
+                        unfilledColourEvent = new ChromaHealthEvent(bev);
                         return null;
                     case ChromaEvent.CHROMA_EVENT_ROTATE: //1,950,000,003 = 1950000003 = Rotate Event
-                        if (specialEvents) unfilledColourEvent = new ChromaRotateEvent(bev);
+                        unfilledColourEvent = new ChromaRotateEvent(bev);
                         return null;
                     case ChromaEvent.CHROMA_EVENT_AMBIENT_LIGHT: //1,950,000,004 = 1950000004 = Ambient Light Event
-                        if (specialEvents) unfilledColourEvent = new ChromaAmbientLightEvent(bev);
+                        unfilledColourEvent = new ChromaAmbientLightEvent(bev);
                         return null;
                     case ChromaEvent.CHROMA_EVENT_BARRIER_COLOUR: //1,950,000,005 = 1950000005 = Barrier Colour Event
-                        if (specialEvents) unfilledColourEvent = new ChromaBarrierColourEvent(bev);
+                        unfilledColourEvent = new ChromaBarrierColourEvent(bev);
                         return null;
                     default: return null;
                 }
@@ -109,7 +109,6 @@ namespace ChromaLite {
 
             if (unfilledColourEvent != null) unfilledColourEvent = null;
 
-            if (!rgbEvents) return null;
             return ChromaEvent.SetChromaEvent(bev, new ChromaLightEvent(bev, a, b));
         }
 

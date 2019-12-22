@@ -1,4 +1,0 @@
-﻿<settings-container>
-    <checkbox-setting text='RGB Lights' apply-on-change='true' value='colourevents' hover-hint='Enable/Disable RGB lighting events.'></checkbox-setting>
-    <checkbox-setting text='Special Events' apply-on-change='true' value='specialevents' hover-hint='Enable/Disable Special Events, such as note size changing, player heal/harm events, and rotation events.'></checkbox-setting>
-</settings-container>
