@@ -13,7 +13,7 @@ namespace ChromaLite {
 
         public void OnApplicationStart() {
 
-            if (ChromaToggleInstalled()) {
+            if (IsModInstalled("ChromaToggle") || IsModInstalled("Chroma")) {
                 ChromaLogger.Log("ChromaToggle/Chroma Detected, Disabling ChromaLite.");
                 ChromaLogger.Log("ChromaToggle/Chroma contains all features (and many more) of ChromaLite.");
                 CTInstalled = true;
@@ -24,16 +24,17 @@ namespace ChromaLite {
             //ChromaLogger.Log("Harmonized");
 
             // Register capabilities for songcore
-            try
-            {
-                SongCore.Collections.RegisterCapability("ChromaLite");
-                SongCore.Collections.RegisterCapability("Chroma Lighting Events");
-                SongCore.Collections.RegisterCapability("Chroma Special Events");
-            }
-            catch { }
+            if (IsModInstalled("SongCore")) RegisterCapabilities();
 
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
             SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        public void RegisterCapabilities()
+        {
+            SongCore.Collections.RegisterCapability("ChromaLite");
+            SongCore.Collections.RegisterCapability("Chroma Lighting Events");
+            SongCore.Collections.RegisterCapability("Chroma Special Events");
         }
 
         public void OnActiveSceneChanged(Scene current, Scene next) {
@@ -85,21 +86,19 @@ namespace ChromaLite {
             ChromaLogger.logger = pluginLogger;
         }
 
-        public static bool ChromaToggleInstalled() {
-            foreach (var mod in IPA.Loader.PluginManager.Plugins) {
-                if (mod.Name == "ChromaToggle" || mod.Name == "Chroma") {
+        public static bool IsModInstalled(string ModName)
+        {
+            foreach (var mod in IPA.Loader.PluginManager.Plugins)
+            {
+                if (mod.Name == ModName)
                     return true;
-                }
             }
             foreach (var mod in IPA.Loader.PluginManager.AllPlugins)
             {
-                if (mod.Metadata.Id == "ChromaToggle" || mod.Metadata.Id == "Chroma")
-                {
+                if (mod.Metadata.Id == ModName)
                     return true;
-                }
             }
             return false;
         }
-
     }
 }
