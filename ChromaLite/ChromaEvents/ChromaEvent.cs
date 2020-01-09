@@ -54,7 +54,7 @@ namespace ChromaLite.ChromaEvents {
             this.data = data;
         }
 
-        public abstract bool Activate(ref LightSwitchEventEffect light, ref BeatmapEventData data, ref BeatmapEventType eventType);
+        public abstract bool Activate(ref UnityEngine.MonoBehaviour light, ref BeatmapEventData data, ref BeatmapEventType eventType);
 
         public virtual void OnEventSet(BeatmapEventData lightmapEvent) {
 

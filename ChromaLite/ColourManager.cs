@@ -106,22 +106,6 @@ namespace ChromaLite {
          * LIGHTS
          */
 
-        public static Color DefaultLightAmbient { get; set; } = new Color(0, 0.3765f, 0.5f, 1); //0, 192, 255
-
-        public static Color DefaultLightA { get; } = new Color(1, 0.016f, 0.016f, 1); //255, 4, 4
-
-        public static Color DefaultLightB { get; } = new Color(0, 0.753f, 1, 1); //0, 192, 255
-
-        public static Color DefaultLightAltA { get; } = new Color(1, 0.032f, 1, 1); //255, 8, 255
-
-        public static Color DefaultLightAltB { get; } = new Color(0.016f, 1, 0.016f, 1); //4, 255, 4
-
-        public static Color DefaultLightWhite { get; } = new Color(1, 1, 1, 1); //Color.white
-
-        public static Color DefaultLightGrey { get; } = new Color(0.6f, 0.6f, 0.6f, 1); //Color.white
-
-        public static Color LightAmbient { get; set; } = new Color(0, 0.3765f, 0.5f, 1); //0, 192, 255
-
         public static Color LightA { get; set; } = new Color(1, 0, 0, 1);
 
         public static Color LightB { get; set; } = new Color(0, 0.502f, 1, 1);
@@ -134,71 +118,12 @@ namespace ChromaLite {
 
         public static Color LightGrey { get; set; } = new Color(0.5f, 0.5f, 0.5f, 1); //128, 128, 128
 
-        /*
-         * BLOCKS / SABERS
-         */
-
-        public static Color DefaultA { get; } = new Color(1, 0, 0, 1);
-
-        public static Color DefaultB { get; } = new Color(0, 0.502f, 1, 1);
-
-        public static Color DefaultAltA { get; } = new Color(1, 0, 1, 1); //Color.magenta
-
-        public static Color DefaultAltB { get; } = new Color(0, 1, 0, 1); //Color.green
-
-        public static Color DefaultDoubleHit { get; } = new Color(0, 0, 0, 1); //Color.black
-
-        public static Color DefaultNonColoured { get; } = new Color(1, 1, 1, 1); //Color.white
-
-        public static Color DefaultSuper { get; set; } = new Color(1, 1, 0, 1);
-
-        public static Color A { get; set; } = new Color(1, 0, 0, 1);
-
-        public static Color B { get; set; } = new Color(0, 0.502f, 1, 1);
-
-        public static Color AltA { get; set; } = new Color(1, 0, 1, 1); //Color.magenta
-
-        public static Color AltB { get; set; } = new Color(0, 1, 0, 1); //Color.green
-
-        public static Color DoubleHit { get; set; } = new Color(0, 0, 0, 1);
-
-        public static Color NonColoured { get; set; } = new Color(1, 1, 1, 1);
-
-        public static Color Super { get; set; } = new Color(1, 1, 0, 1);
-
-        /*
-         * OTHER
-         */
-
-        public static Color DefaultBarrierColour { get; } = Color.red;
-
-        public static Color BarrierColour { get; set; } = DefaultBarrierColour;
-
-        public static Color LaserPointerColour { get; set; } = B;
-
-        public static Color SignA { get; set; } = LightA;
-
-        public static Color SignB { get; set; } = LightB;
-
-
 
         public static LightSwitchEventEffect[] GetAllLightSwitches() {
             return Resources.FindObjectsOfTypeAll<LightSwitchEventEffect>();
         }
 
-        public static void RecolourAllLights(Color red, Color blue) {
-            LightSwitchEventEffect[] lights = GetAllLightSwitches();
-            RecolourLights(ref lights, red, blue);
-        }
-
-        public static void RecolourLights(ref LightSwitchEventEffect[] lights, Color red, Color blue) {
-            for (int i = 0; i < lights.Length; i++) {
-                RecolourLight(ref lights[i], red, blue);
-            }
-        }
-
-        public static void RecolourLight(ref LightSwitchEventEffect obj, Color red, Color blue) {
-            if (obj.name.Contains("nightmare")) return;
+        public static void RecolourLight(ref MonoBehaviour obj, Color red, Color blue) {
             string[] sa = new string[] { "_lightColor0", "_highlightColor0", "_lightColor1", "_highlightColor1" };
 
             for (int i = 0; i < sa.Length; i++) {
@@ -240,11 +165,11 @@ namespace ChromaLite {
             }
         }
 
-        public static SimpleColorSO SetupNewLightColourSOs(LightSwitchEventEffect light, String s) {
+        public static SimpleColorSO SetupNewLightColourSOs(MonoBehaviour light, String s) {
             return SetupNewLightColourSOs(light, s, Color.clear);
         }
 
-        public static SimpleColorSO SetupNewLightColourSOs(LightSwitchEventEffect light, String s, Color overrideMultiplierColour) {
+        public static SimpleColorSO SetupNewLightColourSOs(MonoBehaviour light, String s, Color overrideMultiplierColour) {
             MultipliedColorSO mColorSO = light.GetField<MultipliedColorSO>(s);
             SimpleColorSO baseSO = mColorSO.GetField<SimpleColorSO>("_baseColor");
 

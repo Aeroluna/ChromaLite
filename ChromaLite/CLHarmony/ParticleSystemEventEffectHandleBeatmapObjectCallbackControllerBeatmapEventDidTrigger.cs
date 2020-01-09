@@ -9,18 +9,18 @@ using UnityEngine;
 
 namespace ChromaLite.CLHarmony {
 
-    [HarmonyPatch(typeof(LightSwitchEventEffect))]
+    [HarmonyPatch(typeof(ParticleSystemEventEffect))]
     [HarmonyPatch("HandleBeatmapObjectCallbackControllerBeatmapEventDidTrigger")]
-    class LightSwitchEventEffectHandleBeatmapObjectCallbackControllerBeatmapEventDidTrigger {
+    class ParticleSystemEventEffectHandleBeatmapObjectCallbackControllerBeatmapEventDidTrigger {
 
-        static bool Prefix(LightSwitchEventEffect __instance, ref BeatmapEventData beatmapEventData, ref BeatmapEventType ____event) {
+        static bool Prefix(ParticleSystemEventEffect __instance, ref BeatmapEventData beatmapEventData, ref BeatmapEventType ____colorEvent) {
 
-            if (beatmapEventData.type == ____event) {
+            if (beatmapEventData.type == ____colorEvent) {
                 //CustomLightBehaviour customLight = CustomLightBehaviour.GetCustomLightColour(beatmapEventData);
                 ChromaEvent customEvent = ChromaEvent.GetChromaEvent(beatmapEventData);
                 if (customEvent != null) {
                     MonoBehaviour __monobehaviour = __instance;
-                    customEvent.Activate(ref __monobehaviour, ref beatmapEventData, ref ____event);
+                    customEvent.Activate(ref __monobehaviour, ref beatmapEventData, ref ____colorEvent);
                     return false;
                 }
             }

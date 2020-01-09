@@ -15,7 +15,7 @@ namespace ChromaLite.ChromaEvents {
 
         public ChromaHealthEvent(BeatmapEventData data) : base(data, new Color[] { }) { }
 
-        public override bool Activate(ref LightSwitchEventEffect light, ref BeatmapEventData data, ref BeatmapEventType eventType) {
+        public override bool Activate(ref MonoBehaviour light, ref BeatmapEventData data, ref BeatmapEventType eventType) {
             GameEnergyCounter counter = GameObject.FindObjectOfType<GameEnergyCounter>();
             if (counter != null) {
                 //ChromaLogger.Log("Changing health by " + HealthChangeAmount);

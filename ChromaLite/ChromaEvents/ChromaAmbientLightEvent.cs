@@ -12,7 +12,7 @@ namespace ChromaLite.ChromaEvents {
 
         public ChromaAmbientLightEvent(BeatmapEventData data) : base(data, new Color[] { }) { }
 
-        public override bool Activate(ref LightSwitchEventEffect light, ref BeatmapEventData data, ref BeatmapEventType eventType) {
+        public override bool Activate(ref MonoBehaviour light, ref BeatmapEventData data, ref BeatmapEventType eventType) {
             ColourManager.RecolourAmbientLights(A);
             return true;
         }

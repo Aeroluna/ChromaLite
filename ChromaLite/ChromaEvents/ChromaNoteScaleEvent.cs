@@ -15,7 +15,7 @@ namespace ChromaLite.ChromaEvents {
 
         public ChromaNoteScaleEvent(BeatmapEventData data) : base(data, new Color[] { }) { }
 
-        public override bool Activate(ref LightSwitchEventEffect light, ref BeatmapEventData data, ref BeatmapEventType eventType) {
+        public override bool Activate(ref MonoBehaviour light, ref BeatmapEventData data, ref BeatmapEventType eventType) {
             /*if (ChromaBehaviour.Instance is ChromaBehaviour chroma) {
                 ChromaLogger.Log("Scalechange : " + Scale);
                 chroma.eventNoteScale = Scale;
