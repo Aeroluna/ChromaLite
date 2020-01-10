@@ -138,7 +138,7 @@ namespace ChromaLite {
             }
         }
 
-        public static void RecolourAmbientLights(Color color) {
+        /*public static void RecolourAmbientLights(Color color) {
             List<TubeBloomPrePassLight> bls = UnityEngine.Object.FindObjectsOfType<TubeBloomPrePassLight>().ToList();
             LightSwitchEventEffect[] lights = GetAllLightSwitches();
             foreach (LightSwitchEventEffect light in lights) {
@@ -163,7 +163,7 @@ namespace ChromaLite {
                     }
                 }
             }
-        }
+        }*/
 
         public static SimpleColorSO SetupNewLightColourSOs(MonoBehaviour light, String s) {
             return SetupNewLightColourSOs(light, s, Color.clear);

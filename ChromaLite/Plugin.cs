@@ -7,8 +7,6 @@ using IPALogger = IPA.Logging.Logger;
 namespace ChromaLite {
     public class Plugin : IBeatSaberPlugin {
 
-        public static bool CTInstalled = false;
-
         HarmonyInstance harmony = HarmonyInstance.Create("net.binaryelement.chromalite");
 
         public void OnApplicationStart() {
@@ -16,7 +14,6 @@ namespace ChromaLite {
             if (IsModInstalled("ChromaToggle") || IsModInstalled("Chroma")) {
                 ChromaLogger.Log("ChromaToggle/Chroma Detected, Disabling ChromaLite.");
                 ChromaLogger.Log("ChromaToggle/Chroma contains all features (and many more) of ChromaLite.");
-                CTInstalled = true;
                 return;
             }
 
@@ -25,9 +22,6 @@ namespace ChromaLite {
 
             // Register capabilities for songcore
             if (IsModInstalled("SongCore")) RegisterCapabilities();
-
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         public void RegisterCapabilities()
