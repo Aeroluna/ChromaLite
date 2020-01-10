@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/nike4613/ModSaber-MetadataFileSchema/master/Schema.json",
   "author": "SkyKiwi",
   "description": "A slimmed down version of Chroma that only handles maps that utilize Chroma events, such as Chroma's famous RGB lighting events.",
-  "gameVersion": "1.6.1",
+  "gameVersion": "1.6.2",
   "id": "ChromaLite",
   "name": "ChromaLite",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "features": []
 }
